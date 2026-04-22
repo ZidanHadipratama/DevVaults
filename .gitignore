@@ -1,0 +1,8 @@
+# Never push vault notes — contains indexed private project code
+/vault/
+*.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
