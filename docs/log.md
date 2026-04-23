@@ -1,5 +1,12 @@
 # DevVault — Log
 
+## 2026-04-24 — Claude Sonnet [progress]
+- **Task completed:** QT-1 — Refactor analyze pipeline
+- **Files modified:** `.claude/skills/analyze-project/SKILL.md` (strip deep-dive steps), `.claude/skills/analyze-feature/SKILL.md` (new skill), `AGENTS.md` (new two-step workflow + Codex inline procedure), `docs/quick-tasks.md`
+- **Eval results:** with-skill 7/7 assertions both test cases; baseline 2/7 (missing frontmatter, tables, checklist)
+- **New workflow:** `/analyze-project` → project index + feature list → `/analyze-feature` per feature → `/save-to-vault`
+- **Next:** `/frugent-plan` for next phase
+
 ## 2026-04-23 — Codex CLI [progress]
 - **Task completed:** 3.3 — Codex validation and checkpoint
 - **Files modified:** `docs/test-cases.md`, `docs/plan.md`, `docs/roadmap.md`, `docs/briefing.md`, `docs/log.md`
