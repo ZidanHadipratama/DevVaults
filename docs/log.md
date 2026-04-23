@@ -1,5 +1,35 @@
 # DevVault — Log
 
+## 2026-04-23 — Codex CLI [progress]
+- **Task completed:** 3.3 — Codex validation and checkpoint
+- **Files modified:** `docs/test-cases.md`, `docs/plan.md`, `docs/roadmap.md`, `docs/briefing.md`, `docs/log.md`
+- **Validation path:** verified installed skill copies under `~/.codex/skills/`; created isolated venv at `/tmp/devvault-skill-validate-venv`; installed `PyYAML`; ran `quick_validate.py` successfully against `codex-skills/analyze-project`, `codex-skills/save-to-vault`, and `codex-skills/retrieve-feature`
+- **Environment note:** The base environment lacked Python `yaml`, but the validator works correctly once `PyYAML` is installed in an isolated venv. No repo dependency changes were required.
+- **Phase result:** Phase 3 is complete. Checkpoint commit message: `feat(phase-3): add codex skills and align contracts`
+- **Next action:** Run `/frugent-plan` to plan the next milestone or phase.
+
+## 2026-04-23 — Codex CLI [progress]
+- **Task completed:** 3.2 — contracts and test cases aligned
+- **Files modified:** `docs/contracts.md`, `docs/test-cases.md`, `docs/plan.md`, `docs/briefing.md`, `docs/log.md`
+- **Verification:** `docs/contracts.md` now uses current vault naming (`projects.md`, `status.md`, `<ProjectName>.md`) and names Codex skill locations. `docs/test-cases.md` now reflects current Phase 1 naming, marks verified Phase 3 checks as `pass`, and keeps Phase 3.3 validation tests pending.
+- **Execution note:** No roadmap edit required for this task. Frugent tracker remains unavailable in this environment.
+- **Next task:** 3.3 — record Codex validation path, note the `quick_validate.py` dependency gap, and prepare the phase checkpoint.
+
+## 2026-04-23 — Codex CLI [progress]
+- **Task completed:** 3.1 — Codex skill parity
+- **Verification:** `codex-skills/analyze-project/SKILL.md`, `codex-skills/save-to-vault/SKILL.md`, and `codex-skills/retrieve-feature/SKILL.md` all exist; each has `agents/openai.yaml`; no TODO placeholders remain in tracked or installed copies.
+- **Installed copies verified:** `~/.codex/skills/analyze-project`, `~/.codex/skills/save-to-vault`, `~/.codex/skills/retrieve-feature`
+- **Execution note:** Frugent tracker path `/home/ikktaa/.frugent/tracker.py` is missing in this environment, so task execution used repo state plus direct artifact checks.
+- **Next task:** 3.2 — update contracts and test cases to match current vault naming and Codex skill locations.
+
+## 2026-04-23 — Codex CLI [progress]
+- **Task completed:** Phase 3 planning refresh
+- **Files modified:** `docs/roadmap.md`, `docs/plan.md`, `docs/contracts.md`, `docs/test-cases.md`, `docs/log.md`
+- **Plan:** Re-activate Phase 3 around Codex skills and multi-agent alignment. Track three tasks: Codex skill parity, contract/docs alignment, and Codex validation + checkpoint.
+- **Noted state:** Codex skills already exist in `codex-skills/` and installed copies exist in `~/.codex/skills/`, but the Frugent plan had not yet been updated to reflect them.
+- **Environment note:** Frugent tracker path `/home/ikktaa/.frugent/tracker.py` is missing in this session, so planning used repo state plus current working tree instead of tracker output.
+- **Next task:** Run `/frugent-execute` to execute task 3.1 — Codex skill parity and validation.
+
 ## 2026-04-23 — Claude Sonnet [progress]
 - **Task completed:** 4.3 — GitHub push
 - **Actions:** Added remote `origin` → `git@github.com:ZidanHadipratama/DevVaults.git`, pushed master, upstream set

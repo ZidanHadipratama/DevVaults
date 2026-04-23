@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze Project"
+  short_description: "Analyze codebases into reusable DevVault notes"
+  default_prompt: "Use $analyze-project to scan this repository and draft DevVault project and feature notes."

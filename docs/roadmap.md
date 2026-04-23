@@ -1,6 +1,6 @@
 # DevVault — Roadmap
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Last updated:** 2026-04-23
 
 ---
@@ -10,7 +10,7 @@
 
 **Success criteria:**
 - Obsidian vault at `/home/ikktaa/Documents/DevVault` has correct folder structure
-- Local REST API plugin configured and reachable at port 27123
+- Local REST API plugin configured and reachable at `https://127.0.0.1:27124/`
 - `obsidian-mcp-server` wired in `~/.claude.json`
 - IWantJob manually indexed (1 project index + 5 feature notes — OSS version, no payment)
 - Agent can read a note via MCP and open the referenced raw file
@@ -32,16 +32,17 @@
 
 ---
 
-## Phase 3 — Multi-Agent
-**Goal:** Claude Code + Codex operate on same vault simultaneously without conflicts.
+## Phase 3 — Codex Skills & Multi-Agent Alignment
+**Goal:** Add Codex-native DevVault skills and align the planning surface so Claude and Codex use the same vault model cleanly.
 
 **Success criteria:**
-- `status.md` coordination pattern in place
-- Claude + Codex tested reading vault simultaneously
-- `AGENTS.md` configured for Codex skill access
-- Skills symlinked globally for cross-project access
+- `analyze-project`, `save-to-vault`, and `retrieve-feature` exist as Codex skills created from `skill-creator` scaffolds
+- Tracked Codex skill copies exist under `codex-skills/`
+- Installed Codex skill copies exist under `~/.codex/skills/`
+- `docs/contracts.md` and `docs/test-cases.md` reflect Codex skill locations and current vault naming (`projects.md`, `status.md`, `<ProjectName>.md`)
+- Codex validation path is documented, including any environment gaps such as validator dependencies
 
-**Status:** deferred — Codex to complete
+**Status:** complete
 
 ---
 

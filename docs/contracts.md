@@ -12,22 +12,23 @@ All feature notes MUST include:
 All project index notes MUST include:
 - YAML frontmatter: `project`, `stack[]`, `repo`, `last_indexed`
 - Sections: Summary, Features (wikilinks to feature notes), Architecture Notes
+- Final vault path: `Projects/<ProjectName>/<ProjectName>.md` (do not use `index.md`)
 
-### Global index (`_index.md`)
+### Global index (`projects.md`)
 Must stay updated after every `/save-to-vault` run:
-`| Project | Stack | Last Indexed | Features |`
+`| Project | Stack | Features | Last Indexed |`
 
 ---
 
 ## Skill Contracts
 
 ### Creation rule
-All skills MUST be created via `/skill-creator` in Claude Code. No hand-written skill `.md` files.
+All new DevVault skills MUST start from `skill-creator` scaffolds. Final tracked skill files may then be customized for the target agent.
 
 ### Skill file location
 - Claude Code: `.claude/skills/`
-- Codex: referenced in `AGENTS.md`
-- Global access: symlink `~/.devvault/skills` → `.claude/skills`
+- Codex tracked copies: `codex-skills/`
+- Codex installed copies: `~/.codex/skills/`
 
 ### Skill behavior
 - `/analyze-project` — read-only, no writes. Input: repo path. Output: note drafts (in-conversation).
@@ -36,8 +37,9 @@ All skills MUST be created via `/skill-creator` in Claude Code. No hand-written 
 
 ### Skill I/O contracts
 - `analyze-project` output feeds directly into `save-to-vault` input — same session or copy-paste between sessions.
-- `save-to-vault` must check `_agent-status.md` before any write. Write order: _draft → rename.
+- `save-to-vault` must check `Projects/status.md` before any write. Write order: `_draft` → final path.
 - `retrieve-feature` reads from vault via MCP + opens raw file from source repo path in note frontmatter.
+- Tracked Codex skill copies under `codex-skills/` should match the installed copies under `~/.codex/skills/` for the same skill names.
 
 ---
 
@@ -51,27 +53,32 @@ All skills MUST be created via `/skill-creator` in Claude Code. No hand-written 
 ### Health check
 Skills must verify MCP connection before writing. If unreachable → abort with clear error, do not partially write.
 
+### Base URL
+Current MCP base URL is `https://127.0.0.1:27124/`.
+
 ---
 
 ## Multi-Agent Contracts
 
 ### Write coordination
-- Check `Projects/_agent-status.md` before any vault write
+- Check `Projects/status.md` before any vault write
 - Register task in status table before starting
 - Use `_draft` suffix on note filename during write, rename on completion
 - Update status table on completion
+- Project index notes finalize at `Projects/<ProjectName>/<ProjectName>.md`
 
 ### Ownership
-- Claude Code owns vault writes (analyze + save)
-- Codex owns vault reads + implementation (retrieve)
-- Both can read; only one writes per note at a time
+- Claude Code owns the original Claude skill set under `.claude/skills/`
+- Codex owns the Codex skill set under `codex-skills/` and installed copies under `~/.codex/skills/`
+- Both agents can read the vault
+- Vault writes remain serialized per note even if both agents are active
 
 ---
 
 ## Frugent Contracts
 
 ### Skill creation
-Use `/skill-creator` for all skill files. Document in log.md after each skill created.
+Use `skill-creator` scaffolds for all new skill folders. Document the resulting skill work in `docs/log.md`.
 
 ### Log entries
 After every task: append `[progress]` to `docs/log.md`

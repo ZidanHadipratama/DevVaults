@@ -12,12 +12,12 @@ Personal knowledge base that indexes past projects as structured Markdown in Obs
 Design pillars: plain text first, notes are indexes (not code), agent-agnostic, human-readable, privacy-first (all local).
 
 ## Current State
-Phase 1 complete. Phase 2 complete. Phase 3 deferred (Codex). Phase 4 in-progress — task 4.1 next.
+Phase 1 complete. Phase 2 complete. Phase 3 complete. Phase 4 complete.
 
 ## Tech Stack
 - **Knowledge store:** Obsidian vault (local Markdown)
 - **MCP bridge:** `obsidian-mcp-server` (npx, cyanheads)
-- **Obsidian plugin:** Local REST API (coddingtonbear, port 27123)
+- **Obsidian plugin:** Local REST API (coddingtonbear, `https://127.0.0.1:27124/`)
 - **Skills format:** `.md` skill files via `/skill-creator`
 - **Target agents:** Claude Code + Codex CLI
 
@@ -25,14 +25,14 @@ Phase 1 complete. Phase 2 complete. Phase 3 deferred (Codex). Phase 4 in-progres
 | Role | Primary | Backup |
 |------|---------|--------|
 | Planner | Claude Opus (`/model opusplan`) | Codex |
-| Executor | Claude Sonnet | Codex |
+| Executor | Codex CLI | Claude Sonnet |
 
 **Active role:** Executor
 
 ## Current Assignment
-- **Phase:** Phase 4 — Docs & Release — **complete**
-- **All tasks done:** 4.1 README.md, 4.2 docs/setup.md, 4.3 GitHub push
-- **Next action:** Run `/frugent-plan` to plan next milestone or phase (Phase 3 still deferred to Codex)
+- **Phase:** Phase 3 — Codex Skills & Multi-Agent Alignment — **complete**
+- **Tasks completed:** 3.1 — Codex skill parity; 3.2 — contracts and test cases aligned; 3.3 — validation and checkpoint prepared
+- **Next action:** Run `/frugent-plan` to plan the next milestone or phase
 
 ## Key Paths
 | Resource | Path |
@@ -43,7 +43,7 @@ Phase 1 complete. Phase 2 complete. Phase 3 deferred (Codex). Phase 4 in-progres
 | Phase 1 target repo | `/home/ikktaa/app/IWantJobPrivate` |
 
 ## Skill Creation Rule
-**All skills must be created using `/skill-creator` in Claude Code.** Do not hand-write skill `.md` files directly.
+**All new skills must start from `skill-creator` scaffolds.** Final tracked skill files may then be customized for the target agent.
 
 ## Recommended Next Action
-Run `/frugent-plan` to build the phased roadmap.
+Run `/frugent-plan` to plan the next milestone or phase.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Retrieve Feature"
+  short_description: "Retrieve a vault feature and plan reuse"
+  default_prompt: "Use $retrieve-feature to fetch this DevVault feature note and produce an adaptation plan."

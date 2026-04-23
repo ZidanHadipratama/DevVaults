@@ -1,0 +1,4 @@
+interface:
+  display_name: "Save to Vault"
+  short_description: "Persist DevVault note drafts into Obsidian"
+  default_prompt: "Use $save-to-vault to write these DevVault drafts into the Obsidian vault safely."

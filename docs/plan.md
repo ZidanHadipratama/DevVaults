@@ -1,93 +1,79 @@
 # DevVault — Active Phase Plan
 
-**Active phase:** Phase 4 — Docs & Release
+**Active phase:** Phase 3 — Codex Skills & Multi-Agent Alignment
 **Last updated:** 2026-04-23
-**Planner:** Claude Opus | **Executor:** Claude Sonnet | **Backup:** Codex CLI
+**Planner:** Claude Opus | **Executor:** Codex CLI | **Backup:** Claude Sonnet
 
 ---
 
-<task id="4.1" complexity="standard">
+<task id="3.1" complexity="standard">
   <context>
-    Repo is public-facing. README is first thing anyone sees on GitHub.
-    Must cover: what DevVault is, why it exists, prerequisites, MCP setup, skill installation, all 3 skill workflows with examples.
-    Vault path: /home/ikktaa/Documents/DevVault (local only — do not include in README as absolute path, describe generically).
-    Skills live at .claude/skills/ — explain how to install them.
-    MCP base URL: https://127.0.0.1:27124/ (HTTPS, port 27124).
-    Obsidian Local REST API plugin required.
+    Claude skills already exist in `.claude/skills/`.
+    Codex skill scaffolds and installed copies now exist but are not yet reflected in the Frugent plan.
+    The user explicitly wants Codex skills implemented using `skill-creator`.
+    Codex runtime location is `~/.codex/skills/`.
+    Repo-tracked Codex copies should live under `codex-skills/`.
   </context>
   <action>
-    Write README.md at repo root (/home/ikktaa/app/DevVault/README.md).
-    Must include:
-    1. What DevVault is (1 paragraph — personal codebase KMS for AI agents)
-    2. How it works (analyze → save → retrieve pipeline, diagram optional)
-    3. Prerequisites (Obsidian + Local REST API plugin, obsidian-mcp-server, Claude Code with skill-creator)
-    4. Setup (MCP config in ~/.claude.json, API key)
-    5. Skills — one section per skill: purpose, invocation syntax, example output
-    6. Vault structure (reference AGENTS.md or inline the tree)
-    7. Phase roadmap / what's coming next (brief)
+    Normalize the three Codex skills from `skill-creator` scaffolds:
+    1. `analyze-project`
+    2. `save-to-vault`
+    3. `retrieve-feature`
+    Keep tracked copies in `codex-skills/`.
+    Ensure installed copies exist in `~/.codex/skills/`.
+    Ensure each skill has:
+    - final `SKILL.md`
+    - `agents/openai.yaml`
+    - no placeholder TODO sections
   </action>
   <verify>
-    - README.md exists at repo root
-    - Covers all 3 skills with invocation examples
-    - Prerequisites section is complete (someone can set up from scratch)
-    - No hardcoded absolute paths (use ~/Documents/DevVault pattern)
-    - Readable as a standalone document without needing to read other files
+    - `codex-skills/analyze-project/SKILL.md` exists
+    - `codex-skills/save-to-vault/SKILL.md` exists
+    - `codex-skills/retrieve-feature/SKILL.md` exists
+    - each skill has `agents/openai.yaml`
+    - no TODO placeholders remain in any Codex skill
   </verify>
   <status>done</status>
 </task>
 
-<task id="4.2" complexity="standard">
+<task id="3.2" complexity="standard">
   <context>
-    Depends on: 4.1 (README sets the high-level picture; setup guide is the hands-on complement).
-    New machine setup requires: install Obsidian, install Local REST API plugin, get API key, configure ~/.claude.json, install skill-creator plugin, verify MCP, clone repo, test with /retrieve-feature.
-    MCP config pattern: python3 -c "import json; ..." merge approach (safe JSON merge).
-    skill-creator install: claude plugins install skill-creator (requires session restart).
-    Obsidian Local REST API plugin: Settings → Community Plugins → Browse → "Local REST API" by coddingtonbear.
+    Current planning docs still contain stale references to `_index.md`, `_agent-status.md`, `index.md`, and port `27123`.
+    Current runtime conventions are `Projects/projects.md`, `Projects/status.md`, project main file `<ProjectName>.md`, and MCP base URL `https://127.0.0.1:27124/`.
+    Codex skill locations must be represented alongside Claude skill locations.
   </context>
   <action>
-    Write docs/setup.md — complete step-by-step setup guide for a new machine.
-    Must include:
-    1. Install Obsidian (link to obsidian.md)
-    2. Install Local REST API plugin — exact UI steps + where to find API key
-    3. Create vault at ~/Documents/DevVault (or custom path)
-    4. Clone this repo
-    5. Configure ~/.claude.json — MCP entry with OBSIDIAN_API_KEY and OBSIDIAN_BASE_URL
-    6. Install skill-creator plugin (claude plugins install skill-creator + restart)
-    7. Verify setup — run /retrieve-feature IWantJob llm-routing (if IWantJob is indexed) or run /analyze-project on any repo
-    8. Troubleshooting section: MCP unreachable, API key wrong, port mismatch
+    Update the planning surface and contracts:
+    1. align `docs/contracts.md` with current vault naming
+    2. add Codex skill locations and ownership rules
+    3. refresh `docs/test-cases.md` so completed phases are marked accurately
+    4. add Phase 3 test cases for Codex skill parity and validation
   </action>
   <verify>
-    - docs/setup.md exists
-    - All 8 sections present
-    - ~/.claude.json MCP config example included (with placeholder API key)
-    - Troubleshooting covers the 3 most common failure modes
-    - Someone unfamiliar with the project can follow it start to finish
+    - no stale `_index.md` / `_agent-status.md` naming remains in `docs/contracts.md`
+    - `docs/contracts.md` names `codex-skills/` and `~/.codex/skills/`
+    - `docs/test-cases.md` includes Phase 3 Codex tasks
+    - completed Phase 4 tests are marked `pass`
   </verify>
   <status>done</status>
 </task>
 
-<task id="4.3" complexity="standard">
+<task id="3.3" complexity="standard">
   <context>
-    Depends on: 4.1 + 4.2 (docs must exist before push).
-    GitHub remote: git@github.com:ZidanHadipratama/DevVaults.git
-    Current branch: master
-    .gitignore already excludes vault notes (/home/ikktaa/Documents/DevVault/**).
-    Verify .gitignore is correct before push — vault notes must NOT be pushed.
-    This is first push to remote — need to set upstream.
+    Depends on: 3.1 + 3.2.
+    The Codex skills are present but not yet recorded as a validated phase result.
+    `quick_validate.py` is available through the `skill-creator` system skill, but this environment currently lacks Python `yaml`.
   </context>
   <action>
-    1. Verify SSH access to git@github.com:ZidanHadipratama/DevVaults.git
-    2. Confirm .gitignore excludes vault notes and no sensitive files staged
-    3. Add remote: git remote add origin git@github.com:ZidanHadipratama/DevVaults.git
-       (or update if remote already exists)
-    4. Commit docs if any unstaged changes remain
-    5. Push: git push -u origin master
+    Validate and checkpoint the Codex phase:
+    1. verify Codex discovers the three installed skills
+    2. record the validation path and any environment limitations
+    3. prepare the phase checkpoint commit after the implementation and docs are aligned
   </action>
   <verify>
-    - git remote -v shows correct origin
-    - git push succeeded (no errors)
-    - GitHub repo at github.com/ZidanHadipratama/DevVaults shows README.md on landing page
-    - No vault notes (.md files from /Documents/DevVault) in pushed commit
+    - installed skill copies exist under `~/.codex/skills/`
+    - validation notes mention the `quick_validate.py` dependency gap if still present
+    - checkpoint commit message is ready: `feat(phase-3): add codex skills and align contracts`
   </verify>
   <status>done</status>
 </task>
@@ -95,10 +81,9 @@
 ---
 
 ## Dependencies
-- 4.1 is independent — start here
-- 4.2 depends on 4.1 (setup guide references README concepts)
-- 4.3 depends on 4.1 + 4.2 (push after docs complete)
+- 3.1 is independent — start here
+- 3.2 depends on 3.1
+- 3.3 depends on 3.1 + 3.2
 
 ## Commit checkpoint
-`feat(phase-4): add README and setup guide` before push.
-Then push to origin master.
+`feat(phase-3): add codex skills and align contracts`
