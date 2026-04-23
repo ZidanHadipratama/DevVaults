@@ -89,7 +89,7 @@
     - GitHub repo at github.com/ZidanHadipratama/DevVaults shows README.md on landing page
     - No vault notes (.md files from /Documents/DevVault) in pushed commit
   </verify>
-  <status>pending</status>
+  <status>done</status>
 </task>
 
 ---

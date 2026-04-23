@@ -1,6 +1,12 @@
 # DevVault — Log
 
 ## 2026-04-23 — Claude Sonnet [progress]
+- **Task completed:** 4.3 — GitHub push
+- **Actions:** Added remote `origin` → `git@github.com:ZidanHadipratama/DevVaults.git`, pushed master, upstream set
+- **Verification:** `git status` shows up to date with origin/master, all 3 commits visible on remote
+- **Phase 4 complete.** All tasks done. Roadmap updated.
+
+## 2026-04-23 — Claude Sonnet [progress]
 - **Task completed:** 4.2 — docs/setup.md
 - **Files created:** `docs/setup.md`
 - **Verification:** 8 sections present, `~/.claude.json` example with placeholder key, 3 troubleshooting modes (MCP unreachable, API key rejected, port mismatch)

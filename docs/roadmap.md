@@ -53,4 +53,4 @@
 - `docs/setup.md` has step-by-step setup for a new machine
 - Repo pushed to `git@github.com:ZidanHadipratama/DevVaults.git`
 
-**Status:** in-progress
+**Status:** complete
