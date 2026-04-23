@@ -1,122 +1,104 @@
 # DevVault — Active Phase Plan
 
-**Active phase:** Phase 2 — Skills
+**Active phase:** Phase 4 — Docs & Release
 **Last updated:** 2026-04-23
 **Planner:** Claude Opus | **Executor:** Claude Sonnet | **Backup:** Codex CLI
 
 ---
 
-<task id="2.1" complexity="complex">
+<task id="4.1" complexity="standard">
   <context>
-    Skill creation rule: ALL skills must be created via /skill-creator in Claude Code. No hand-written .md files.
-    Skill location: .claude/skills/
-    Note schema contracts: docs/contracts.md (feature note schema, project index schema).
-    Anti-paralysis rule: read ≤5 files per feature before writing each note draft.
-    Target test repo: /home/ikktaa/app/Syntra OR /home/ikktaa/app/Catty (executor picks whichever exists).
-    Output format: note drafts matching PRD Section 5.3 schema (YAML frontmatter + all sections + Adaptation Checklist).
-    This skill is READ-ONLY — no vault writes.
+    Repo is public-facing. README is first thing anyone sees on GitHub.
+    Must cover: what DevVault is, why it exists, prerequisites, MCP setup, skill installation, all 3 skill workflows with examples.
+    Vault path: /home/ikktaa/Documents/DevVault (local only — do not include in README as absolute path, describe generically).
+    Skills live at .claude/skills/ — explain how to install them.
+    MCP base URL: https://127.0.0.1:27124/ (HTTPS, port 27124).
+    Obsidian Local REST API plugin required.
   </context>
   <action>
-    Use /skill-creator to create the analyze-project skill.
-    The skill must:
-    1. Accept a repo path as input.
-    2. Scan the repo to identify distinct features (target: 3-6 per project).
-    3. For each feature: read ≤5 source files, identify key functions/classes, data flow, external deps, and reuse gotchas.
-    4. Output structured note drafts (in-conversation, not written to disk) matching PRD 5.3 schema.
-    5. Output a project summary matching PRD 5.2 schema.
-    6. Enforce anti-paralysis: if reading >5 files without producing output, stop and list what was found so far.
-
-    After skill is created, test it on Syntra or Catty (whichever exists at /home/ikktaa/app/).
-    Verify output drafts match note schema before marking done.
+    Write README.md at repo root (/home/ikktaa/app/DevVault/README.md).
+    Must include:
+    1. What DevVault is (1 paragraph — personal codebase KMS for AI agents)
+    2. How it works (analyze → save → retrieve pipeline, diagram optional)
+    3. Prerequisites (Obsidian + Local REST API plugin, obsidian-mcp-server, Claude Code with skill-creator)
+    4. Setup (MCP config in ~/.claude.json, API key)
+    5. Skills — one section per skill: purpose, invocation syntax, example output
+    6. Vault structure (reference AGENTS.md or inline the tree)
+    7. Phase roadmap / what's coming next (brief)
   </action>
   <verify>
-    - .claude/skills/analyze-project.md exists
-    - Skill created via /skill-creator (not hand-written)
-    - Test run on Syntra or Catty produces at least 2 feature note drafts
-    - Each draft has: YAML frontmatter with files[], tags[], last_indexed; all required sections; Reuse Notes; Adaptation Checklist
-    - No vault files written during test run
+    - README.md exists at repo root
+    - Covers all 3 skills with invocation examples
+    - Prerequisites section is complete (someone can set up from scratch)
+    - No hardcoded absolute paths (use ~/Documents/DevVault pattern)
+    - Readable as a standalone document without needing to read other files
   </verify>
   <status>done</status>
 </task>
 
-<task id="2.2" complexity="standard">
+<task id="4.2" complexity="standard">
   <context>
-    Depends on: task 2.1 (analyze-project must exist and produce valid drafts).
-    Skill creation rule: use /skill-creator only.
-    contracts.md: save-to-vault writes via MCP only (obsidian-mcp-server). No direct filesystem writes.
-    MCP health check required before writing: if MCP unreachable, abort with error — do not partially write.
-    Multi-agent coordination: check _agent-status.md before write, use _draft suffix during write, rename on completion.
-    _index.md must be updated after every save run.
-    Vault path: /home/ikktaa/Documents/DevVault/Projects/
+    Depends on: 4.1 (README sets the high-level picture; setup guide is the hands-on complement).
+    New machine setup requires: install Obsidian, install Local REST API plugin, get API key, configure ~/.claude.json, install skill-creator plugin, verify MCP, clone repo, test with /retrieve-feature.
+    MCP config pattern: python3 -c "import json; ..." merge approach (safe JSON merge).
+    skill-creator install: claude plugins install skill-creator (requires session restart).
+    Obsidian Local REST API plugin: Settings → Community Plugins → Browse → "Local REST API" by coddingtonbear.
   </context>
   <action>
-    Use /skill-creator to create the save-to-vault skill.
-    The skill must:
-    1. Accept note drafts (output from analyze-project) as input.
-    2. Verify MCP connection before any write. Abort if unreachable.
-    3. Check Projects/_agent-status.md — register task before writing.
-    4. For each note: write with _draft suffix first, then rename to final name on success.
-    5. Write project index (index.md) and all feature notes to Projects/<ProjectName>/.
-    6. Update Projects/_index.md with new project row.
-    7. Update _agent-status.md on completion.
-
-    After skill is created, test it by running analyze-project on the same test repo from 2.1,
-    then piping drafts into save-to-vault. Verify files appear in vault.
+    Write docs/setup.md — complete step-by-step setup guide for a new machine.
+    Must include:
+    1. Install Obsidian (link to obsidian.md)
+    2. Install Local REST API plugin — exact UI steps + where to find API key
+    3. Create vault at ~/Documents/DevVault (or custom path)
+    4. Clone this repo
+    5. Configure ~/.claude.json — MCP entry with OBSIDIAN_API_KEY and OBSIDIAN_BASE_URL
+    6. Install skill-creator plugin (claude plugins install skill-creator + restart)
+    7. Verify setup — run /retrieve-feature IWantJob llm-routing (if IWantJob is indexed) or run /analyze-project on any repo
+    8. Troubleshooting section: MCP unreachable, API key wrong, port mismatch
   </action>
   <verify>
-    - .claude/skills/save-to-vault.md exists
-    - Skill created via /skill-creator
-    - Test run writes notes to vault via MCP (not direct filesystem)
-    - _index.md updated with test project row
-    - _agent-status.md updated
-    - No partial writes (draft → rename pattern confirmed)
+    - docs/setup.md exists
+    - All 8 sections present
+    - ~/.claude.json MCP config example included (with placeholder API key)
+    - Troubleshooting covers the 3 most common failure modes
+    - Someone unfamiliar with the project can follow it start to finish
   </verify>
   <status>done</status>
 </task>
 
-<task id="2.3" complexity="standard">
+<task id="4.3" complexity="standard">
   <context>
-    Depends on: task 2.2 (vault must have at least one indexed project — IWantJob from Phase 1 qualifies).
-    Skill creation rule: use /skill-creator only.
-    This skill is READ-ONLY — no vault writes.
-    Reads vault note via MCP, opens referenced raw file from source repo, produces adaptation plan.
-    After this task: create AGENTS.md documenting all 3 skills for Codex access.
-    Skill location for Codex: referenced in AGENTS.md at repo root.
+    Depends on: 4.1 + 4.2 (docs must exist before push).
+    GitHub remote: git@github.com:ZidanHadipratama/DevVaults.git
+    Current branch: master
+    .gitignore already excludes vault notes (/home/ikktaa/Documents/DevVault/**).
+    Verify .gitignore is correct before push — vault notes must NOT be pushed.
+    This is first push to remote — need to set upstream.
   </context>
   <action>
-    Use /skill-creator to create the retrieve-feature skill.
-    The skill must:
-    1. Accept project name + feature name as input (e.g., "IWantJob llm-routing").
-    2. Read the vault note via MCP (obsidian tool).
-    3. Open the first file listed in the note's files[] frontmatter from the source repo.
-    4. Produce a structured output: note summary + raw code excerpt + adaptation plan (what to copy, what to change for a new project).
-    5. Read-only — no vault writes.
-
-    After skill is created, test it: retrieve-feature IWantJob llm-routing.
-    Verify output includes note content + raw ai_service.py excerpt + adaptation steps.
-
-    Then create AGENTS.md at repo root (/home/ikktaa/app/DevVault/AGENTS.md) documenting:
-    - All 3 skills and their purpose
-    - How Codex can invoke them
-    - Vault path and MCP connection requirement
+    1. Verify SSH access to git@github.com:ZidanHadipratama/DevVaults.git
+    2. Confirm .gitignore excludes vault notes and no sensitive files staged
+    3. Add remote: git remote add origin git@github.com:ZidanHadipratama/DevVaults.git
+       (or update if remote already exists)
+    4. Commit docs if any unstaged changes remain
+    5. Push: git push -u origin master
   </action>
   <verify>
-    - .claude/skills/retrieve-feature.md exists
-    - Skill created via /skill-creator
-    - Test retrieval of IWantJob/llm-routing returns note + raw code + adaptation plan
-    - AGENTS.md exists at repo root with all 3 skills documented
-    - No vault writes during test run
+    - git remote -v shows correct origin
+    - git push succeeded (no errors)
+    - GitHub repo at github.com/ZidanHadipratama/DevVaults shows README.md on landing page
+    - No vault notes (.md files from /Documents/DevVault) in pushed commit
   </verify>
-  <status>done</status>
+  <status>pending</status>
 </task>
 
 ---
 
 ## Dependencies
-- 2.1 is independent — start here
-- 2.2 depends on 2.1 (needs valid draft output to test)
-- 2.3 is independent of 2.2 (IWantJob vault notes from Phase 1 are sufficient for testing)
+- 4.1 is independent — start here
+- 4.2 depends on 4.1 (setup guide references README concepts)
+- 4.3 depends on 4.1 + 4.2 (push after docs complete)
 
 ## Commit checkpoint
-Phase 2 completion: `feat(phase-2): add analyze-project, save-to-vault, retrieve-feature skills`
-Scope: .claude/skills/ (3 files) + AGENTS.md
+`feat(phase-4): add README and setup guide` before push.
+Then push to origin master.

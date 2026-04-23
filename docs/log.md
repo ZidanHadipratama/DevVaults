@@ -1,6 +1,65 @@
 # DevVault — Log
 
 ## 2026-04-23 — Claude Sonnet [progress]
+- **Task completed:** 4.2 — docs/setup.md
+- **Files created:** `docs/setup.md`
+- **Verification:** 8 sections present, `~/.claude.json` example with placeholder key, 3 troubleshooting modes (MCP unreachable, API key rejected, port mismatch)
+- **Next task:** 4.3 — GitHub push. Verify SSH access, then run `/frugent-execute`.
+
+## 2026-04-23 — Claude Sonnet [progress]
+- **Task completed:** 4.1 — README.md
+- **Files created:** `README.md` at repo root
+- **Verification:** File exists, all 3 skills documented with invocation examples, prerequisites complete, no hardcoded absolute paths, standalone readable
+- **Next task:** 4.2 — docs/setup.md. Run `/frugent-execute`.
+
+## 2026-04-23 — Claude Sonnet [handoff]
+- **Session summary:** Phase 2 completed (all 3 skills). Vault naming conventions fixed. Phase 3 deferred to Codex. Phase 4 planned and ready to execute.
+- **Completed:**
+  - Task 2.2: `save-to-vault` skill — created via `/skill-creator`, live MCP test passed (TA notes written to vault)
+  - Task 2.3: `retrieve-feature` skill + `AGENTS.md` — created, live test passed (IWantJob/llm-routing retrieved with code + adaptation plan)
+  - Phase 2 checkpoint commit: `8704440`
+  - Vault naming fixes: `_index.md`→`projects.md`, `_agent-status.md`→`status.md`, `index.md`→`<ProjectName>.md`, status entries now table rows not free headings
+  - Phase 3 deferred (Codex to complete)
+  - Phase 4 planned: tasks 4.1 (README), 4.2 (setup guide), 4.3 (GitHub push)
+- **In progress:** Task 4.1 — README.md (not started)
+- **Technical Decisions:**
+  - MCP base URL is `https://127.0.0.1:27124/` (HTTPS, port 27124) — not 27123. Key in `~/.claude.json` → `mcpServers.obsidian.env.OBSIDIAN_BASE_URL`
+  - Project main file named `<ProjectName>.md` (e.g., `TA/TA.md`) — not `index.md`
+  - Vault coordination files: `Projects/projects.md` (master list) + `Projects/status.md` (agent lock table)
+  - Status entries go as table rows: `| ProjectName | task | IN PROGRESS | timestamp |`
+  - Codex skills: AGENTS.md is read as layered instructions (not a skill registry). Embed skill procedures directly in AGENTS.md for Codex access — no `.claude/skills/` equivalent in Codex.
+- **Learned Lessons:**
+  - Obsidian wikilink syntax `[[path\|alias]]` has backslashes that bash variable expansion mangles. Always write vault content via temp file + `--data-binary @file`, never `--data-raw "$var"`. Documented in save-to-vault SKILL.md.
+  - Subagents need Write/Bash paths pre-added to `.claude/settings.json` AND directories pre-created before spawning. Rate limit cascades if >3 agents spawned per turn.
+  - `skill-creator` plugin needs session restart after install to appear in available skills.
+- **Files modified:**
+  - `.claude/skills/save-to-vault/SKILL.md` — created, then updated with naming fixes + escaping warning
+  - `.claude/skills/retrieve-feature/SKILL.md` — created
+  - `AGENTS.md` — created, then updated with new vault structure (projects.md/status.md/<ProjectName>.md)
+  - `docs/plan.md` — Phase 4 XML contracts written
+  - `docs/roadmap.md` — Phase 2 complete, Phase 3 deferred, Phase 4 goal updated
+  - `docs/test-cases.md` — Phase 2 marked pass, Phase 3 deferred, Phase 4 T4.1–T4.3 added
+  - `docs/log.md` — multiple progress entries
+  - `docs/briefing.md` — updated for Phase 4
+  - `Projects/projects.md` (vault) — created, replaces `_index.md`
+  - `Projects/status.md` (vault) — created with table format, replaces `_agent-status.md`
+  - `Projects/IWantJob/IWantJob.md` (vault) — renamed from `index.md`
+  - `Projects/TA/TA.md` (vault) — renamed from `index.md`
+- **Known issues:** None blocking. Vault test data (TA) only has 1 of 6 feature notes — sufficient for testing but incomplete index.
+- **Resume instructions:**
+  1. Read `docs/briefing.md` and `docs/plan.md`
+  2. MCP URL: `https://127.0.0.1:27124/` — verify Obsidian is running before any vault operations
+  3. Next task: 4.1 — write `README.md` at repo root. Run `/frugent-execute`.
+  4. After 4.1+4.2 done: task 4.3 pushes to `git@github.com:ZidanHadipratama/DevVaults.git` — verify SSH key access first
+  5. Phase 4 checkpoint commit before push: `feat(phase-4): add README and setup guide`
+
+## 2026-04-23 — Claude Sonnet [progress]
+- **Task completed:** Planning — Phase 3 deferred, Phase 4 planned
+- **Files modified:** `docs/roadmap.md` (Phase 3 deferred, Phase 4 goal updated), `docs/plan.md` (Phase 4 tasks 4.1–4.3), `docs/test-cases.md` (T4.1–T4.3 added), `docs/log.md`
+- **Also:** save-to-vault skill + AGENTS.md updated — `_index.md`→`projects.md`, `_agent-status.md`→`status.md`, `index.md`→`<ProjectName>.md`, status entries now table rows
+- **Next task:** 4.1 — README.md. Run `/frugent-execute`.
+
+## 2026-04-23 — Claude Sonnet [progress]
 - **Task completed:** 2.3 — `retrieve-feature` skill + `AGENTS.md`
 - **Files created:** `.claude/skills/retrieve-feature/SKILL.md`, `AGENTS.md`
 - **Files modified:** `docs/plan.md` (2.3 done), `docs/roadmap.md` (Phase 2 complete), `docs/log.md`, `docs/briefing.md`

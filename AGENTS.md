@@ -30,7 +30,7 @@ This file documents the DevVault skills available to AI agents (Claude Code, Cod
 
 ### `save-to-vault`
 **File:** `.claude/skills/save-to-vault/SKILL.md`
-**Purpose:** Saves `analyze-project` note drafts to the Obsidian vault via MCP. Enforces draft→rename safety pattern. Updates `_index.md` and `_agent-status.md`.
+**Purpose:** Saves `analyze-project` note drafts to the Obsidian vault via MCP. Enforces draft→rename safety pattern. Updates `projects.md` and `status.md`.
 
 **Invoke:**
 ```
@@ -40,10 +40,11 @@ This file documents the DevVault skills available to AI agents (Claude Code, Cod
 
 **Behavior:**
 1. Verifies MCP connection — aborts if unreachable
-2. Registers task in `Projects/_agent-status.md`
-3. Writes each note as `<slug>_draft.md`, renames to `<slug>.md` on success
-4. Updates `Projects/_index.md` with new project row
-5. Marks task DONE in `_agent-status.md`
+2. Registers task in `Projects/status.md` (table row)
+3. Writes each feature note as `<slug>_draft.md`, renames to `<slug>.md` on success
+4. Writes project file as `<ProjectName>.md` (not `index.md`)
+5. Updates `Projects/projects.md` with new project row
+6. Marks task DONE in `status.md`
 
 **When to use:** After `analyze-project` produces drafts, to persist them to the vault.
 
@@ -92,14 +93,14 @@ Reuse a feature in a new project:
 ```
 /home/ikktaa/Documents/DevVault/
 ├── Projects/
-│   ├── _index.md              ← master project list
-│   ├── _agent-status.md       ← multi-agent coordination
+│   ├── projects.md            ← master project list
+│   ├── status.md              ← multi-agent coordination
 │   ├── IWantJob/
-│   │   ├── index.md
+│   │   ├── IWantJob.md        ← project index
 │   │   ├── llm-routing.md
 │   │   └── ...
 │   └── <ProjectName>/
-│       ├── index.md
+│       ├── <ProjectName>.md   ← project index
 │       └── <feature-slug>.md
 └── Templates/
     ├── project-index.md

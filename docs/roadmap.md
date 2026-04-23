@@ -36,22 +36,21 @@
 **Goal:** Claude Code + Codex operate on same vault simultaneously without conflicts.
 
 **Success criteria:**
-- `_agent-status.md` coordination pattern in place
+- `status.md` coordination pattern in place
 - Claude + Codex tested reading vault simultaneously
 - `AGENTS.md` configured for Codex skill access
 - Skills symlinked globally for cross-project access
 
-**Status:** pending
+**Status:** deferred — Codex to complete
 
 ---
 
-## Phase 4 — Refinement (ongoing)
-**Goal:** Polish, hardening, optional vector search evaluation.
+## Phase 4 — Docs & Release
+**Goal:** Project is documented, guiding, and publicly available on GitHub.
 
-**Tasks:**
-- Add Adaptation Checklist to all feature notes
-- Add tags for cross-project feature search
-- Evaluate vector search (Zilliz/ChromaDB) need
-- Consider auto-indexing hook on `git commit`
+**Success criteria:**
+- `README.md` at repo root covers what DevVault is, prerequisites, setup, and all 3 skill workflows
+- `docs/setup.md` has step-by-step setup for a new machine
+- Repo pushed to `git@github.com:ZidanHadipratama/DevVaults.git`
 
-**Status:** pending
+**Status:** in-progress

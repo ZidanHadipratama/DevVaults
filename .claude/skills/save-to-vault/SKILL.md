@@ -1,6 +1,6 @@
 ---
 name: save-to-vault
-description: Saves analyze-project note drafts to the DevVault Obsidian vault via MCP (obsidian-mcp-server). Use this skill whenever the user wants to save, write, or persist note drafts to the vault, says things like "save to vault", "write to vault", "persist these notes", "save [ProjectName] to DevVault", or "save the drafts". Always use this skill instead of writing vault files directly — it enforces the draft→rename safety pattern and keeps _index.md and _agent-status.md in sync. Requires analyze-project output (or equivalent note drafts) as input.
+description: Saves analyze-project note drafts to the DevVault Obsidian vault via MCP (obsidian-mcp-server). Use this skill whenever the user wants to save, write, or persist note drafts to the vault, says things like "save to vault", "write to vault", "persist these notes", "save [ProjectName] to DevVault", or "save the drafts". Always use this skill instead of writing vault files directly — it enforces the draft→rename safety pattern and keeps projects.md and status.md in sync. Requires analyze-project output (or equivalent note drafts) as input.
 ---
 
 # Save to Vault
@@ -18,11 +18,11 @@ If drafts are missing, tell the user to run `/analyze-project <repo-path>` first
 
 ## Step 1 — MCP Health Check
 
-Read `Projects/_agent-status.md` using the obsidian MCP tool (check available MCP tools at invocation time — look for tools named like `obsidian_read_file`, `read_file`, or equivalent).
+Read `Projects/status.md` using the obsidian MCP tool (check available MCP tools at invocation time — look for tools named like `obsidian_read_file`, `read_file`, or equivalent).
 
 If the call **fails or returns an error**, stop immediately:
 
-> **MCP unreachable.** Ensure Obsidian is running with the Local REST API plugin enabled on port 27123.
+> **MCP unreachable.** Ensure Obsidian is running with the Local REST API plugin enabled.
 > Aborting — no files written.
 
 Do not proceed past this step if MCP is unreachable. Partial writes are worse than no writes.
@@ -31,10 +31,16 @@ Do not proceed past this step if MCP is unreachable. Partial writes are worse th
 
 ## Step 2 — Register Task
 
-Append to `Projects/_agent-status.md` via MCP write:
+Read `Projects/status.md`, append a new table row, write back via MCP:
 
 ```
-## <ProjectName> — save-to-vault — IN PROGRESS — <ISO timestamp>
+| <ProjectName> | save-to-vault | IN PROGRESS | <ISO timestamp> |
+```
+
+The table header is:
+```
+| Project | Task | Status | Timestamp |
+|---------|------|--------|-----------|
 ```
 
 This prevents two agents from writing the same project simultaneously.
@@ -54,42 +60,44 @@ The draft suffix exists so that if a rename fails mid-run, the vault never conta
 
 ---
 
-## Step 4 — Write Project Index (draft → rename)
+## Step 4 — Write Project File (draft → rename)
 
-1. Write `Projects/<ProjectName>/index_draft.md` via MCP
-2. On success, rename/overwrite to `Projects/<ProjectName>/index.md` via MCP
+The project's main file is named after the project itself, not `index.md`.
+
+1. Write `Projects/<ProjectName>/<ProjectName>_draft.md` via MCP
+2. On success, rename/overwrite to `Projects/<ProjectName>/<ProjectName>.md` via MCP
 
 ---
 
-## Step 5 — Update _index.md
+## Step 5 — Update projects.md
 
-Read `Projects/_index.md` via MCP. Append a new row for this project:
+Read `Projects/projects.md` via MCP. Append a new row for this project:
 
 ```
-| [[Projects/<ProjectName>/index\|<ProjectName>]] | <stack summary from index draft> | <feature count> | <today's date YYYY-MM-DD> |
+| [[Projects/<ProjectName>/<ProjectName>\|<ProjectName>]] | <stack summary from index draft> | <feature count> | <today's date YYYY-MM-DD> |
 ```
 
 Write the updated content back via MCP.
 
-If `_index.md` doesn't contain a table header yet, append both the header and the row:
+If `projects.md` doesn't contain a table header yet, append both the header and the row:
 
 ```markdown
 | Project | Stack | Features | Last Indexed |
 |---------|-------|----------|--------------|
-| [[Projects/<ProjectName>/index\|<ProjectName>]] | <stack> | <N> | <date> |
+| [[Projects/<ProjectName>/<ProjectName>\|<ProjectName>]] | <stack> | <N> | <date> |
 ```
 
 ---
 
 ## Step 6 — Complete Registration
 
-Update `Projects/_agent-status.md` via MCP — change the IN PROGRESS line to DONE:
+Update `Projects/status.md` via MCP — change the IN PROGRESS row to DONE:
 
 ```
-## <ProjectName> — save-to-vault — DONE — <ISO timestamp>
+| <ProjectName> | save-to-vault | DONE | <ISO timestamp> |
 ```
 
-Read the current content first, replace the IN PROGRESS line, then write back.
+Read the current content first, replace the IN PROGRESS row, then write back.
 
 ---
 
@@ -101,14 +109,14 @@ Print a structured summary:
 ## save-to-vault complete — <ProjectName>
 
 **Written:**
-- Projects/<ProjectName>/index.md
+- Projects/<ProjectName>/<ProjectName>.md
 - Projects/<ProjectName>/<feature-slug>.md  (×N)
 
-**_index.md:** row added ✓
+**projects.md:** row added ✓
 
 **Skipped:** (none)  ← or list skipped files with reason
 
-**_agent-status.md:** DONE ✓
+**status.md:** DONE ✓
 ```
 
 ---

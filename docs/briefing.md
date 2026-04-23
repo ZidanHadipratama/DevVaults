@@ -12,7 +12,7 @@ Personal knowledge base that indexes past projects as structured Markdown in Obs
 Design pillars: plain text first, notes are indexes (not code), agent-agnostic, human-readable, privacy-first (all local).
 
 ## Current State
-Phase 1 complete. Phase 2 complete. All 3 skills live: `analyze-project`, `save-to-vault`, `retrieve-feature`.
+Phase 1 complete. Phase 2 complete. Phase 3 deferred (Codex). Phase 4 in-progress — task 4.1 next.
 
 ## Tech Stack
 - **Knowledge store:** Obsidian vault (local Markdown)
@@ -30,10 +30,10 @@ Phase 1 complete. Phase 2 complete. All 3 skills live: `analyze-project`, `save-
 **Active role:** Executor
 
 ## Current Assignment
-- **Phase:** Phase 2 — Skills
-- **Task:** Phase 2 complete. Next: Phase 3 — Multi-Agent
-- **Handoff entry:** See `docs/log.md` — 2026-04-23 Claude Sonnet [progress]
-- **Next action:** Run `/frugent-plan` to plan Phase 3.
+- **Phase:** Phase 4 — Docs & Release
+- **Task:** 4.3 — GitHub push (pending)
+- **Last completed:** 4.2 — docs/setup.md (done); 4.1 — README.md (done)
+- **Next action:** Run `/frugent-execute` — verify SSH access to git@github.com:ZidanHadipratama/DevVaults.git, then push
 
 ## Key Paths
 | Resource | Path |

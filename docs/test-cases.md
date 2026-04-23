@@ -26,9 +26,20 @@
 | T2.3b | Run `retrieve-feature IWantJob llm-routing` | Note summary + `ai_service.py` excerpt + adaptation plan returned, no vault writes | pending |
 | T2.3c | `AGENTS.md` exists at repo root with all 3 skills documented | File present, all 3 skills listed with invocation instructions | pending |
 
-## Phase 3 — Multi-Agent
+## Phase 3 — Multi-Agent (deferred — Codex)
 
 | # | Test | Expected | Status |
 |---|------|----------|--------|
-| T7 | Claude + Codex read vault simultaneously | No errors, both get correct data | pending |
-| T8 | Concurrent write attempt on same note | `_draft` suffix prevents conflict | pending |
+| T7 | Claude + Codex read vault simultaneously | No errors, both get correct data | deferred |
+| T8 | Concurrent write attempt on same note | `_draft` suffix prevents conflict | deferred |
+
+## Phase 4 — Docs & Release
+
+| # | Test | Expected | Status |
+|---|------|----------|--------|
+| T4.1a | README.md exists at repo root | File present, all 7 sections present | pending |
+| T4.1b | README covers all 3 skills with invocation examples | Each skill has purpose + syntax + example | pending |
+| T4.2a | docs/setup.md exists with 8 sections | File present, complete start-to-finish guide | pending |
+| T4.2b | ~/.claude.json config example in setup.md | Placeholder API key, correct MCP URL format | pending |
+| T4.3a | git remote origin points to ZidanHadipratama/DevVaults | `git remote -v` shows correct URL | pending |
+| T4.3b | Push succeeds, README visible on GitHub landing page | No vault notes in pushed commit | pending |
