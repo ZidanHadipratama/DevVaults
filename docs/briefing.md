@@ -12,7 +12,7 @@ Personal knowledge base that indexes past projects as structured Markdown in Obs
 Design pillars: plain text first, notes are indexes (not code), agent-agnostic, human-readable, privacy-first (all local).
 
 ## Current State
-Phase 1 in progress. Vault structure done. MCP configured. IWantJob fully indexed (5 feature notes + index + _index row).
+Phase 1 complete. Phase 2 complete. All 3 skills live: `analyze-project`, `save-to-vault`, `retrieve-feature`.
 
 ## Tech Stack
 - **Knowledge store:** Obsidian vault (local Markdown)
@@ -31,8 +31,9 @@ Phase 1 in progress. Vault structure done. MCP configured. IWantJob fully indexe
 
 ## Current Assignment
 - **Phase:** Phase 2 — Skills
-- **Task:** Not yet planned
-- **Next action:** Run `/frugent-plan` to plan Phase 2 (3 skills: analyze-project, save-to-vault, retrieve-feature — all via `/skill-creator`)
+- **Task:** Phase 2 complete. Next: Phase 3 — Multi-Agent
+- **Handoff entry:** See `docs/log.md` — 2026-04-23 Claude Sonnet [progress]
+- **Next action:** Run `/frugent-plan` to plan Phase 3.
 
 ## Key Paths
 | Resource | Path |

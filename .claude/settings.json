@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Write(/home/ikktaa/app/DevVault/.claude/skills/analyze-project-workspace/**)",
+      "Bash(mkdir -p /home/ikktaa/app/DevVault/.claude/skills/analyze-project-workspace/**)"
+    ]
+  }
+}

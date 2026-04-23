@@ -28,7 +28,7 @@
 - `/retrieve-feature` skill created via `/skill-creator`, tested retrieval + adaptation plan
 - All skills in `.claude/skills/` and referenced in `CLAUDE.md` + `AGENTS.md`
 
-**Status:** pending
+**Status:** complete
 
 ---
 

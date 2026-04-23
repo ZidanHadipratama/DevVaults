@@ -1,0 +1,23 @@
+{
+  "skill_name": "analyze-project",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze the project at /home/ikktaa/app/JobPilot and produce vault note drafts for it",
+      "expected_output": "One project index draft + 3-6 feature note drafts, all in PRD 5.2/5.3 schema with YAML frontmatter, Key Components table, Workflow diagram, Reuse Notes, Adaptation Checklist. No files written to disk.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I want to index /home/ikktaa/app/Resume-Matcher for my DevVault. Extract the reusable features.",
+      "expected_output": "One project index draft + 3-6 feature note drafts matching PRD schemas. Features should reflect actual Resume-Matcher capabilities. No disk writes.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "scan /home/ikktaa/app/TA and tell me what features are worth indexing for reuse",
+      "expected_output": "Project index + feature notes. If project is small, fewer features (2-3) is acceptable. Schema compliance still required.",
+      "files": []
+    }
+  ]
+}

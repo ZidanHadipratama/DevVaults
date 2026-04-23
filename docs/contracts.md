@@ -30,9 +30,14 @@ All skills MUST be created via `/skill-creator` in Claude Code. No hand-written 
 - Global access: symlink `~/.devvault/skills` → `.claude/skills`
 
 ### Skill behavior
-- `/analyze-project` — read-only, no writes
-- `/save-to-vault` — writes via MCP only, never direct filesystem
-- `/retrieve-feature` — read-only, no writes
+- `/analyze-project` — read-only, no writes. Input: repo path. Output: note drafts (in-conversation).
+- `/save-to-vault` — writes via MCP only, never direct filesystem. Input: note drafts. Requires MCP health check first.
+- `/retrieve-feature` — read-only, no writes. Input: project name + feature name. Output: note summary + raw code + adaptation plan.
+
+### Skill I/O contracts
+- `analyze-project` output feeds directly into `save-to-vault` input — same session or copy-paste between sessions.
+- `save-to-vault` must check `_agent-status.md` before any write. Write order: _draft → rename.
+- `retrieve-feature` reads from vault via MCP + opens raw file from source repo path in note frontmatter.
 
 ---
 

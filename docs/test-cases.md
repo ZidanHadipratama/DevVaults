@@ -18,9 +18,13 @@
 
 | # | Test | Expected | Status |
 |---|------|----------|--------|
-| T4 | `/analyze-project` on Syntra | Structured feature notes output, no vault writes | pending |
-| T5 | `/save-to-vault` after analyze | Notes written to vault, `_index.md` updated | pending |
-| T6 | `/retrieve-feature IWantJob llm-routing` | Summary + raw code + adaptation plan | pending |
+| T2.1a | `analyze-project` skill file exists at `.claude/skills/analyze-project.md` | File present, created via `/skill-creator` | pending |
+| T2.1b | Run `analyze-project` on Syntra or Catty | ≥2 feature note drafts with valid PRD 5.3 schema, no vault writes | pending |
+| T2.2a | `save-to-vault` skill file exists at `.claude/skills/save-to-vault.md` | File present, created via `/skill-creator` | pending |
+| T2.2b | Run `save-to-vault` with drafts from T2.1b | Notes in vault via MCP, `_index.md` updated, `_agent-status.md` updated | pending |
+| T2.3a | `retrieve-feature` skill file exists at `.claude/skills/retrieve-feature.md` | File present, created via `/skill-creator` | pending |
+| T2.3b | Run `retrieve-feature IWantJob llm-routing` | Note summary + `ai_service.py` excerpt + adaptation plan returned, no vault writes | pending |
+| T2.3c | `AGENTS.md` exists at repo root with all 3 skills documented | File present, all 3 skills listed with invocation instructions | pending |
 
 ## Phase 3 — Multi-Agent
 
