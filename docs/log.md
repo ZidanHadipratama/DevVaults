@@ -1,6 +1,11 @@
 # DevVault — Log
 
 ## 2026-04-24 — Claude Sonnet [progress]
+- **Task completed:** Planning — QT-2 planned (analyze-and-save + codex + README + global install)
+- **Files modified:** `docs/quick-tasks.md` — QT-2 XML contracts written (4 tasks)
+- **Next task:** QT-2.1 — build analyze-and-save via /skill-creator. Run `/frugent-execute quick QT-2.1`.
+
+## 2026-04-24 — Claude Sonnet [progress]
 - **Task completed:** QT-1 — Refactor analyze pipeline
 - **Files modified:** `.claude/skills/analyze-project/SKILL.md` (strip deep-dive steps), `.claude/skills/analyze-feature/SKILL.md` (new skill), `AGENTS.md` (new two-step workflow + Codex inline procedure), `docs/quick-tasks.md`
 - **Eval results:** with-skill 7/7 assertions both test cases; baseline 2/7 (missing frontmatter, tables, checklist)

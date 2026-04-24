@@ -7,17 +7,17 @@ Personal codebase knowledge management system for AI agents. Indexes past projec
 ## How It Works
 
 ```
-Analyze → Save → Retrieve
+Index:
+  /analyze-and-save /path/to/repo
+        ↓
+  project overview + feature list (review + approve)
+        ↓
+  parallel subagents: one per feature → vault via MCP
+        ↓
+  project indexed ✓
 
-/analyze-project /path/to/repo
-        ↓
-  structured note drafts (in-conversation)
-        ↓
-/save-to-vault ProjectName
-        ↓
-  notes persisted to Obsidian vault via MCP
-        ↓
-/retrieve-feature ProjectName feature-name
+Retrieve:
+  /retrieve-feature ProjectName feature-name
         ↓
   note + raw code + adaptation plan
 ```
@@ -96,46 +96,31 @@ Restart Claude Code after install for the plugin to appear.
 
 ### 6. Verify setup
 
-```bash
-# In Claude Code, run:
+```
 /retrieve-feature IWantJob llm-routing
 ```
 
-If MCP is connected and IWantJob is indexed, you'll see a note summary + adaptation plan. If not indexed yet, run `/analyze-project` on any repo first.
+If MCP is connected and IWantJob is indexed, you'll see a note summary + adaptation plan. If not indexed yet, run `/analyze-and-save` on any repo first.
 
 ---
 
 ## Skills
 
-### `/analyze-project`
+### `/analyze-and-save` — primary indexing skill
 
-Scans a code repository and produces structured knowledge-base note drafts in-conversation. Read-only — no disk or vault writes.
-
-```
-/analyze-project /path/to/repo
-```
-
-**Output:** One project index draft + 3–6 feature note drafts in Markdown. Feed into `/save-to-vault` to persist.
-
----
-
-### `/save-to-vault`
-
-Saves `/analyze-project` note drafts to the Obsidian vault via MCP. Enforces draft→rename safety pattern. Updates `projects.md` and `status.md`.
+One command to fully index a project into the vault. Shows you the project map and feature list, waits for your approval, then indexes all features in parallel via subagents.
 
 ```
-/save-to-vault ProjectName
+/analyze-and-save /path/to/repo
+/analyze-and-save /path/to/repo ProjectName
 ```
 
-Requires analyze-project drafts already in conversation context.
-
-**What it does:**
-1. Verifies MCP connection
-2. Registers task in `Projects/status.md`
-3. Writes each feature note as `<slug>_draft.md`, renames to `<slug>.md` on success
-4. Writes project index as `Projects/<ProjectName>/<ProjectName>.md`
-5. Updates `Projects/projects.md`
-6. Marks task DONE in `status.md`
+**Flow:**
+1. Scans repo (README + config + dir listing)
+2. Shows project overview + feature candidate table
+3. Waits for your approval or modifications
+4. Spawns parallel subagents — one per feature — each reads ≤5 files and writes to vault
+5. Writes project index, updates `projects.md` and `status.md`
 
 ---
 
@@ -152,10 +137,71 @@ Retrieves a vault feature note via MCP, reads the referenced raw source file, an
 
 ```
 /retrieve-feature IWantJob llm-routing
-/retrieve-feature IWantJob auth-byok /home/user/app/NewProject
+/retrieve-feature IWantJob auth /home/user/app/NewProject
 ```
 
 **Output:** Note summary + key components table + raw code excerpt + adaptation plan (copy-as-is / must-change / gotchas / effort estimate).
+
+---
+
+## Advanced / Granular Control
+
+Use these when you need step-by-step control instead of the full pipeline:
+
+### `/analyze-project`
+
+Lightweight scan — produces project overview + feature candidate list only. No deep feature reads, no vault writes.
+
+```
+/analyze-project /path/to/repo
+```
+
+### `/analyze-feature`
+
+Deep-dives into one specific feature and produces a single PRD 5.3 feature note in-conversation.
+
+```
+/analyze-feature ProjectName feature-slug /path/to/repo
+```
+
+### `/save-to-vault`
+
+Persists note drafts already in conversation to the vault via MCP.
+
+```
+/save-to-vault ProjectName
+```
+
+---
+
+## Typical Workflows
+
+**Index a new project (one command):**
+
+```
+/analyze-and-save ~/app/MyProject
+→ review feature list, approve
+→ all features indexed to vault automatically
+```
+
+**Index selectively (granular):**
+
+```
+/analyze-project ~/app/MyProject
+→ review feature candidates
+
+/analyze-feature MyProject auth ~/app/MyProject
+/analyze-feature MyProject llm-routing ~/app/MyProject
+
+/save-to-vault MyProject
+```
+
+**Reuse a feature in a new project:**
+
+```
+/retrieve-feature MyProject some-feature
+→ read adaptation plan, copy what fits
+```
 
 ---
 
@@ -182,25 +228,6 @@ See [AGENTS.md](AGENTS.md) for full vault structure and multi-agent coordination
 
 ---
 
-## Typical Workflow
-
-**Index a new project:**
-
-```
-/analyze-project ~/app/MyProject
-→ review drafts in conversation
-/save-to-vault MyProject
-```
-
-**Reuse a feature in a new project:**
-
-```
-/retrieve-feature MyProject some-feature
-→ read adaptation plan, copy what fits
-```
-
----
-
 ## Roadmap
 
 | Phase | Goal | Status |
@@ -208,7 +235,7 @@ See [AGENTS.md](AGENTS.md) for full vault structure and multi-agent coordination
 | 1 — Foundation | Vault structure, MCP setup, IWantJob indexed | complete |
 | 2 — Skills | analyze → save → retrieve pipeline | complete |
 | 3 — Multi-Agent | Claude + Codex on same vault simultaneously | deferred |
-| 4 — Docs & Release | README, setup guide, GitHub release | in-progress |
+| 4 — Docs & Release | README, setup guide, GitHub release | complete |
 
 ---
 

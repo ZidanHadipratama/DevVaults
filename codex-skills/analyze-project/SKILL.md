@@ -1,103 +1,32 @@
 ---
 name: analyze-project
-description: Analyze a software repository and draft DevVault-ready Markdown notes for later vault storage. Use when the user wants to index a project, scan a repo for reusable features, extract structured implementation notes, or prepare project and feature drafts for save-to-vault. Keep the work read-only and return the notes in conversation.
+description: Scan a repository and produce a project overview + feature candidate list for DevVault. Use when the user wants a lightweight project map before deep-diving features, or wants to see what's indexable before committing to a full vault write. Output feeds into analyze-feature (one call per feature) then save-to-vault. Does NOT produce full feature notes — use analyze-feature or analyze-and-save for that.
 ---
 
 # Analyze Project
 
-Produce DevVault note drafts from a repository without writing to disk.
-
-## Workflow
-
-1. Orient on the repository before reading source files.
-2. Identify 3-6 reusable features before deep inspection.
-3. Read only the most explanatory files for one feature at a time.
-4. Draft each feature note immediately after reading it.
-5. Draft the project index last.
+Produce a lightweight project overview and feature candidate list. No deep feature reads. No disk writes.
 
 ## Step 1: Orient
 
-Read the fast, high-signal files first:
-- `README.md` and top-level docs
-- root config such as `package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`
-- top-level directory listing
+Read these files (≤3 total):
+- `README.md` or `docs/` overview
+- Root config (`package.json`, `pyproject.toml`, `requirements.txt`, etc.)
+- Top-level directory listing
 
-Do not start with a deep source walk. First determine the stack and rough system shape.
+Identify tech stack and rough project shape. Do not read source files yet.
 
-## Step 2: Choose Features
+## Step 2: Identify Feature Candidates
 
-A feature should be a reusable capability with a clear boundary, such as auth, LLM routing, export, sync, or payments.
+A feature: self-contained reusable capability with clear boundary, spans 1–5 files, meaningful 6 months later. Examples: auth, llm-routing, pdf-export, payments.
 
-Before reading source files, list the features you plan to cover. Aim for 3-6 features. If a feature would need more than about 5 files to explain, narrow it or split it.
+Briefly scan 1–2 files per candidate (entry points only) to confirm existence and get a one-line description. Do not deep-read.
 
-## Step 3: Read and Draft Per Feature
+Aim for 3–6 candidates.
 
-For each feature:
-- Read no more than about 5 files.
-- Favor entry points, core logic, schemas, and one integration file.
-- Write the note as soon as the feature is understandable.
-- If something remains fuzzy after 5 files, mark it as unclear instead of continuing to dig.
+## Step 3: Write Project Index
 
-Focus on reuse value:
-- what the feature does
-- which files matter
-- what can be copied
-- what must change
-- what can go wrong
-
-## Feature Note Format
-
-Return each feature note as a fenced Markdown block using this structure:
-
-```markdown
----
-project: <ProjectName>
-feature: <feature-slug>
-type: implementation
-files:
-  - <path/to/file1>
-  - <path/to/file2>
-tags: [<tag1>, <tag2>]
-last_indexed: <YYYY-MM-DD>
----
-
-# <Feature Name> - <ProjectName>
-
-## What it does
-One concise paragraph describing the capability and its behavior.
-
-## Key Components
-
-### `<ClassName>` / `<filename>`
-**File:** `<path>`
-
-| Function / Class | Responsibility |
-|-----------------|----------------|
-| `fn_name(args)` | What it does |
-
-## Workflow
-
-```text
-Step 1: ...
-  -> Step 2: ...
-  -> Step 3: result
-```
-
-## Reuse Notes
-- What to copy as-is
-- **Gotcha:** Non-obvious trap
-- External deps, config, env vars, or assumptions
-
-## Adaptation Checklist
-- [ ] Copy the core files
-- [ ] Replace project-specific wiring
-- [ ] Wire dependencies or config
-- [ ] Re-check the gotchas
-```
-
-## Project Index Format
-
-After finishing all feature notes, return one fenced Markdown block:
+Use this schema:
 
 ```markdown
 ---
@@ -110,19 +39,30 @@ last_indexed: <YYYY-MM-DD>
 # <ProjectName>
 
 ## Summary
-1-2 paragraphs on what the project does and how it is built.
+1–2 paragraphs. What it does, who it's for, core approach.
 
 ## Features
-- [[<ProjectName>/<feature-slug>]] - one-line description
+- `<feature-slug>` — one-line description
 
 ## Architecture Notes
-How the pieces connect, plus any surprising design choices.
+How pieces connect. Key design decisions. What would surprise someone picking it up cold.
+```
+
+## Step 4: Output Feature Candidate Table
+
+```
+## Feature Candidates
+
+Run /analyze-feature <ProjectName> <slug> <repo-path> for each:
+
+| Feature | Slug | Description | Key files (hint) |
+|---------|------|-------------|-----------------|
+| Auth | auth | ... | backend/app/dependencies.py |
 ```
 
 ## Constraints
 
-- Stay read-only.
-- Do not write files.
-- Do not use line numbers in notes.
-- Prefer concrete identifiers over vague summaries.
-- Optimize for future reuse, not exhaustive documentation.
+- Read-only. No disk writes.
+- Max 2 files scanned per feature candidate (location only, not deep read)
+- Max 10 total file reads
+- No line numbers in output
